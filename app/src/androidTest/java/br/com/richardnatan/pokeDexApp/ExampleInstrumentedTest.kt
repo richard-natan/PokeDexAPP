@@ -1,4 +1,4 @@
-package br.com.richardnatan.teste
+package br.com.richardnatan.pokeDexApp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

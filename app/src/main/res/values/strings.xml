@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">teste</string>
     <string name="pokemon_id">#%1s</string>
+    <string name="edit_search_hint">\'\'25\'\' or \'\'Pikachu\'\'</string>
 </resources>

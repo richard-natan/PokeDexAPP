@@ -1,4 +1,4 @@
-package br.com.richardnatan.teste
+package br.com.richardnatan.pokeDexApp
 
 import org.junit.Test
 

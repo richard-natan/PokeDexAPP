@@ -1,13 +1,9 @@
-package br.com.richardnatan.teste.util
+package br.com.richardnatan.pokeDexApp.util
 
-import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.palette.graphics.Palette
-import br.com.richardnatan.teste.R
-import br.com.richardnatan.teste.model.Pokemon
-import com.squareup.picasso.Picasso
+import br.com.richardnatan.pokeDexApp.model.Pokemon
 import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
@@ -29,8 +25,8 @@ class PokemonTask(private val callback: Callback){
         //https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0
 
         executor.execute {
-            var urlConnection: HttpsURLConnection? = null
-            var stream: InputStream? = null
+            val urlConnection: HttpsURLConnection?
+            val stream: InputStream?
 
             try {
                 val requestUrl = URL("https://pokeapi.co/api/v2/pokemon?limit=1016&offset=0")
@@ -77,7 +73,7 @@ class PokemonTask(private val callback: Callback){
             pokemonList.add(
                 Pokemon(
                     pokemonId,
-                    name.replaceFirst(name.first(), name.first().uppercaseChar()),
+                    name,
                     pictureUrl
                 )
             )

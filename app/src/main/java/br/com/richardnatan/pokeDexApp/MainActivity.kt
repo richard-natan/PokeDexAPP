@@ -1,9 +1,9 @@
-package br.com.richardnatan.teste
+package br.com.richardnatan.pokeDexApp
 
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import br.com.richardnatan.teste.model.Pokemon
-import br.com.richardnatan.teste.util.PokemonTask
+import br.com.richardnatan.pokeDexApp.model.Pokemon
+import br.com.richardnatan.pokeDexApp.util.PokemonTask
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity(), PokemonTask.Callback {
@@ -21,14 +21,12 @@ class MainActivity : AppCompatActivity(), PokemonTask.Callback {
     private val cachedList = mutableListOf<Pokemon>()
     private lateinit var adapter: Adapter
     private lateinit var rvMain: RecyclerView
-    private lateinit var searchButton: Button
     private lateinit var searchEdit: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        searchButton = findViewById(R.id.search_button)
         searchEdit = findViewById(R.id.edit_search)
         rvMain = findViewById(R.id.rv_main)
         adapter = Adapter(pokeList)
@@ -37,39 +35,44 @@ class MainActivity : AppCompatActivity(), PokemonTask.Callback {
         rvMain.layoutManager = GridLayoutManager(this, 2)
 
         val pokemonTask = PokemonTask(this)
-
         pokemonTask.execute()
 
-        searchButton.setOnClickListener {
-            if (searchEdit.text.isNullOrEmpty()){
-                pokeList.clear()
-                pokeList.addAll(cachedList)
-                adapter.notifyDataSetChanged()
-                return@setOnClickListener
-            }
-
-            if (cachedList.isEmpty()) {
-                cachedList.addAll(pokeList)
-            }
-
-            val list = mutableListOf<Pokemon>()
-
-            if (searchEdit.text.isDigitsOnly()) {
-                val filterList = cachedList.filter { pokemon ->
-                  pokemon.id.equals(searchEdit.text.toString().toInt())
+        searchEdit.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (cachedList.isEmpty()) {
+                    cachedList.addAll(pokeList)
                 }
+
+                if (searchEdit.text.isNullOrEmpty()) {
+                    pokeList.clear()
+                    pokeList.addAll(cachedList)
+                    adapter.notifyDataSetChanged()
+                }
+
+
+                val list = mutableListOf<Pokemon>()
+
+                if (!searchEdit.text.isNullOrEmpty() && searchEdit.text.isDigitsOnly()) {
+                    val filterList = cachedList.filter { pokemon ->
+                        pokemon.id == searchEdit.text.toString().toInt()
+                    }
+                    list.addAll(filterList)
+                } else {
+                    val filterList = cachedList.filter { pokemon ->
+                        pokemon.name.contains(searchEdit.text.toString().lowercase())
+                    }
+                    list.addAll(filterList)
+                }
+
+
+                pokeList.clear()
+                pokeList.addAll(list)
+                adapter.notifyDataSetChanged()
             }
-
-
-
-            pokeList.clear()
-            pokeList.addAll(list)
-            adapter.notifyDataSetChanged()
-
+            true
         }
 
     }
-
 
     private inner class Adapter(private val listPokemons: List<Pokemon>) :
         RecyclerView.Adapter<Adapter.ViewHolder>() {
@@ -96,14 +99,11 @@ class MainActivity : AppCompatActivity(), PokemonTask.Callback {
 
 
                 txtId.text = getString(R.string.pokemon_id, item.id.toString())
-                txtName.text = item.name
+                txtName.text = item.name.replaceFirst(item.name.first(), item.name.first().uppercaseChar())
                 Picasso.get().load(item.picture).into(imageView)
 
             }
-
-
         }
-
     }
 
     override fun onResult(pokemons: List<Pokemon>) {
@@ -111,4 +111,6 @@ class MainActivity : AppCompatActivity(), PokemonTask.Callback {
         this.pokeList.addAll(pokemons)
         this.adapter.notifyDataSetChanged()
     }
+
+
 }

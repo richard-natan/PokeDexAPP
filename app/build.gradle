@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'br.com.richardnatan.teste'
+    namespace 'br.com.richardnatan.pokeDexApp'
     compileSdk 34
 
     defaultConfig {
-        applicationId "br.com.richardnatan.teste"
+        applicationId "br.com.richardnatan.pokeDexApp"
         minSdk 24
         targetSdk 34
         versionCode 1
