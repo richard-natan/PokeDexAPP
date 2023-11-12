@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">teste</string>
+    <string name="pokemon_id">#%1s</string>
+</resources>
