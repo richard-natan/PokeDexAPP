@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/pokemon_image" android:drawable="@color/white"/>
-    <item android:id="@+id/background_gradient">
+    <item android:drawable="@android:color/transparent">
+        <shape>
+            <corners android:topRightRadius="15dp"
+                android:topLeftRadius="15dp"/>
+            <gradient
+                android:angle="36"
+                android:startColor="@color/red"
+                android:centerColor="@color/darker_red"
+                android:endColor="@color/red"/>
+        </shape>
+    </item>
+    <item>
         <shape>
             <corners android:topRightRadius="15dp"
                 android:topLeftRadius="15dp"/>

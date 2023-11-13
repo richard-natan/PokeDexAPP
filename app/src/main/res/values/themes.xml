@@ -2,7 +2,6 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Teste" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/red</item>
-        <item name="backgroundColor">@color/white</item>
     </style>
 
     <style name="Theme.Teste" parent="Base.Theme.Teste" />
