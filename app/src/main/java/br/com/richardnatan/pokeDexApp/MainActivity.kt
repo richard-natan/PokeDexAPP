@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(), PokemonTask.Callback {
             filteredList.addAll(tempList)
         } else { // Filter by Name
             val tempList = cachedList.filter { pokemon ->
-                pokemon.name.contains(searchEdit.text.toString().lowercase())
+                pokemon.name.startsWith(searchEdit.text.toString().lowercase())
             }
             filteredList.addAll(tempList)
         }
